@@ -303,135 +303,171 @@ const abiDriverContract = [
   },
 ];
 
-var arraylist2 = [];
-var whole2 = [];
+function AddDriver(props) {
+  const [account, setAccount] = useState(null);
 
-function AdminPanel() {
-  const [w2, setw2] = useState([]);
-
-  const Update = async (status, id) => {
-    try {
-      const { ethereum } = window;
-      if (ethereum) {
-        const provider = new ethers.providers.Web3Provider(ethereum);
-        const signer = provider.getSigner();
-        const DriverContract = new ethers.Contract(
-          DriverContractAddress,
-          abiDriverContract,
-          signer
-        );
-
-        if (status == 1) {
-          status = 0;
-        } else {
-          status = 1;
-        }
-        let Txn2 = await DriverContract.updateDriver(id, status);
-        await Txn2.wait();
-        alert("Sucess");
-      } else {
-        alert("Error Occured");
-      }
-    } catch (err) {
-      alert("Error Occured");
-    }
+  const setacc = async () => {
+    const { ethereum } = window;
+    const accounts = await ethereum.request({ method: "eth_accounts" });
+    setAccount(accounts[0]);
   };
 
-  async function getAllDriver() {
+  const clear = () => {
+    document.getElementById("myForm").reset();
+    const form = document.getElementById("myForm");
+    form.reset();
+  };
+  const savedata = async () => {
     try {
       const { ethereum } = window;
 
       if (ethereum) {
         const provider = new ethers.providers.Web3Provider(ethereum);
         const signer = provider.getSigner();
+
         const DriverContract = new ethers.Contract(
           DriverContractAddress,
           abiDriverContract,
           signer
         );
-        arraylist2 = await DriverContract.getAllDrivers();
-        console.log(arraylist2);
-        for (var i = 0; i < arraylist2.length; i++) {
-          whole2[i] = arraylist2[i];
-        }
-        setw2(whole2);
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  }
 
-  const changeable = (status) => {
-    console.log(status);
-    var r = "";
-    if (status == "1") {
-      r = "Verified";
-    } else {
-      r = "Not Verified";
+        const DriverID = document.getElementById("DriverID").value;
+        const DriverName = document.getElementById("DriverName").value;
+        const Experience = document.getElementById("Experience").value;
+        const PhoneNumber = document.getElementById("PhoneNumber").value;
+        const Address = document.getElementById("Address").value;
+        const CarRegisterNumber = document.getElementById("CarRegisterNumber").value;
+        const CarName = document.getElementById("CarName").value;
+        const LicenseNumber = document.getElementById("LicenseNumber").value;
+        const CurrentLocation = "Pune";
+		const status = 0;
+
+
+        let Txn2 = await DriverContract.addDriver(
+			DriverID,
+			DriverName,
+			Experience,
+			PhoneNumber,
+			Address,
+			CarRegisterNumber,
+			CarName,
+			LicenseNumber,
+			CurrentLocation,
+			status
+        );
+
+        await Txn2.wait();
+        clear();
+        alert("Added Success , Please Wait for Verification");
+      } else {
+        alert("Ethereum object does not exist");
+      }
+    } catch (err) {
+      alert(err);
     }
-    return r;
   };
 
   useEffect(() => {
-    getAllDriver();
-  }, []);
+    setacc();
+  });
 
   return (
     <>
-      <div class="alert alert-secondary" role="alert">
-        Register Drivers
-      </div>
+      <div className="container shadow-lg p-3 mb-5 bg-white rounded mt-3 mb-4">
+        <form className="needs-validation" id="myForm" noValidate>
+          <div className="form-row">
+            <div className="col-lg-4 col-md-6 mb-3">
+              <label htmlFor="validationCustom01">Driver ID</label>
+              <input
+                type="text"
+                className="form-control"
+                value={account}
+                id="DriverID"
+                disabled
+                required
+              />
+              <div className="valid-feedback">Looks good!</div>
+            </div>
 
-      <div className="container-fluid shadow-lg p-3 mb-5 bg-white rounded mt-3">
-        {w2.length === 0 ? (
-          <div>Loading...</div>
-        ) : (
-          <table className="table table-bordered">
-            <thead className="thead-dark">
-              <tr>
-                <th scope="col">Driver ID</th>
+            <div className="col-lg-2 col-md-6 mb-3">
+              <label htmlFor="validationCustom01">Driver name</label>
+              <input type="text" className="form-control" id="DriverName" required />
+              <div className="valid-feedback">Looks good!</div>
+            </div>
 
-                <th scope="col">Driver Name</th>
-                <th scope="col">Experience</th>
-                <th scope="col">Phone Number</th>
-                <th scope="col">Address</th>
-                <th scope="col">Car Number</th>
-                <th scope="col">Car Name</th>
-                <th scope="col">License Number</th>
-                <th scope="col">Current City</th>
-                <th scope="col">Status</th>
-                <th scope="col">Update Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {w2.map((record, index) => (
-                <tr key={index}>
-                  <td>{String(record[0])}</td>
-                  <td>{String(record[1])}</td>
-                  <td>{String(record[2])}</td>
-                  <td>{String(record[3])}</td>
-                  <td>{String(record[4])}</td>
-                  <td>{String(record[5])}</td>
-                  <td>{String(record[6])}</td>
-                  <td>{String(record[7])}</td>
-                  <td>{String(record[8])}</td>
-                  <td id="s">{changeable(String(record[9]))}</td>
-                  <td>
-                    <button
-                      className="btn btn-success"
-                      onClick={() => Update(record[9], record[0])}
-                    >
-                      Update
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
+            <div className="col-lg-2 col-md-6 mb-3">
+              <label htmlFor="validationCustom02">Experience</label>
+              <input
+                type="text"
+                className="form-control"
+                id="Experience"
+                required
+              />
+              <div className="valid-feedback">Looks good!</div>
+            </div>
+
+            <div className="col-lg-2 col-md-6 mb-3">
+              <label htmlFor="validationCustom02">Phone Number</label>
+              <input
+                type="number"
+                className="form-control"
+                id="PhoneNumber"
+                required
+              />
+              <div className="valid-feedback">Looks good!</div>
+            </div>
+          </div>
+
+          <div className="form-row">
+            <div className="col-lg-4 form-group">
+              <label htmlFor="inputAddress">Address</label>
+              <input
+                type="text"
+                className="form-control"
+                id="Address"
+                placeholder="Flat, Wing, House Name"
+              />
+            </div>
+        
+          </div>
+
+         
+          <div className="form-row">
+            <div className="col-lg-2 col-md-6 mb-3">
+              <label htmlFor="validationCustom02">Car Register Number</label>
+              <input
+                type="text"
+                className="form-control"
+                id="CarRegisterNumber"
+                required
+              />
+              <div className="valid-feedback">Looks good!</div>
+            </div>
+
+            <div className="col-lg-2 col-md-6 mb-3">
+              <label htmlFor="validationCustom01">Car Name</label>
+              <input type="text" className="form-control" id="CarName" required />
+              <div className="valid-feedback">Looks good!</div>
+            </div>
+
+            <div className="col-lg-2 col-md-6 mb-3">
+              <label htmlFor="validationCustom01">License Number</label>
+              <input
+                type="text"
+                className="form-control"
+                id="LicenseNumber"
+                required
+              />
+              <div className="valid-feedback">Looks good!</div>
+            </div>
+          </div>
+        </form>
+        <button onClick={savedata} className="btn btn-success mb-5">
+          Save
+        </button>
       </div>
     </>
   );
 }
 
-export default AdminPanel;
+export default AddDriver;

@@ -21,8 +21,21 @@ function UserTypeComponent() {
             <div className='card mb-4'>
               <div className="card-body">
                 <form className="form-horizontal">
-                  <Link to="/user" className="btn btn-primary btn-block">
-                    Register as driver or user
+                  <Link to="/driver" className="btn btn-primary btn-block">
+                    Login as driver
+                  </Link>
+                </form>
+              </div>
+            </div>
+          </div>
+
+
+          <div className='col-lg-3'>
+            <div className='card mb-4'>
+              <div className="card-body">
+                <form className="form-horizontal">
+                  <Link to="/rider" className="btn btn-primary btn-block">
+                    Take your ride
                   </Link>
                 </form>
               </div>

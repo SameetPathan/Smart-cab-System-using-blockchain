@@ -306,36 +306,47 @@ const abiDriverContract = [
 var arraylist2 = [];
 var whole2 = [];
 
-function AdminPanel() {
+function Rider() {
   const [w2, setw2] = useState([]);
+  const [currentLocation, setCurrentLocation] = useState("");
 
-  const Update = async (status, id) => {
-    try {
-      const { ethereum } = window;
-      if (ethereum) {
-        const provider = new ethers.providers.Web3Provider(ethereum);
-        const signer = provider.getSigner();
-        const DriverContract = new ethers.Contract(
-          DriverContractAddress,
-          abiDriverContract,
-          signer
-        );
+  const [startLocation, setStartLocation] = useState("");
+  const [destinationLocation, setDestinationLocation] = useState("");
+  const [fareAmount, setFareAmount] = useState(0);
+  const [rideTime, setRideTime] = useState("");
+  const [userName, setUserName] = useState("");
+  const [userPhoneNumber, setUserPhoneNumber] = useState("");
 
-        if (status == 1) {
-          status = 0;
-        } else {
-          status = 1;
-        }
-        let Txn2 = await DriverContract.updateDriver(id, status);
-        await Txn2.wait();
-        alert("Sucess");
-      } else {
-        alert("Error Occured");
-      }
-    } catch (err) {
-      alert("Error Occured");
-    }
+
+  const handleConfirm = () => {
+    const bookingData = {
+      "startLocation":startLocation,
+      "endLocation":destinationLocation,
+      "fare":fareAmount,
+      "time":rideTime,
+      "customerName":userName,
+      "phoneNumber":userPhoneNumber,
+    };
+    console.log("###Booking: ",bookingData)
+
+    setStartLocation("");
+    setDestinationLocation("");
+    setFareAmount(0);
+    setRideTime("");
+    setUserName("");
+    setUserPhoneNumber("");
+   
   };
+
+
+  const handleLocationChange = (e) => {
+    setCurrentLocation(e.target.value);
+  };
+
+  const filteredRecords = w2.filter(
+    (record) =>
+      String(record[8]).toLowerCase().includes(currentLocation.toLowerCase())
+  );
 
   async function getAllDriver() {
     try {
@@ -379,49 +390,48 @@ function AdminPanel() {
   return (
     <>
       <div class="alert alert-secondary" role="alert">
-        Register Drivers
+       Rides Near you..
+      </div>
+
+      <div className="input-group mb-3">
+        <input
+          type="text"
+          className="form-control"
+          placeholder="Enter your current location to filter cab"
+          value={currentLocation}
+          onChange={handleLocationChange}
+        />
       </div>
 
       <div className="container-fluid shadow-lg p-3 mb-5 bg-white rounded mt-3">
         {w2.length === 0 ? (
           <div>Loading...</div>
         ) : (
-          <table className="table table-bordered">
+            <table className="table table-bordered">
             <thead className="thead-dark">
               <tr>
-                <th scope="col">Driver ID</th>
-
                 <th scope="col">Driver Name</th>
-                <th scope="col">Experience</th>
                 <th scope="col">Phone Number</th>
-                <th scope="col">Address</th>
                 <th scope="col">Car Number</th>
                 <th scope="col">Car Name</th>
-                <th scope="col">License Number</th>
-                <th scope="col">Current City</th>
-                <th scope="col">Status</th>
-                <th scope="col">Update Status</th>
+                <th scope="col">Driver Location</th>
+                <th scope="col">Action</th>
               </tr>
             </thead>
             <tbody>
-              {w2.map((record, index) => (
+              {filteredRecords.map((record, index) => (
                 <tr key={index}>
-                  <td>{String(record[0])}</td>
                   <td>{String(record[1])}</td>
-                  <td>{String(record[2])}</td>
                   <td>{String(record[3])}</td>
-                  <td>{String(record[4])}</td>
                   <td>{String(record[5])}</td>
                   <td>{String(record[6])}</td>
-                  <td>{String(record[7])}</td>
                   <td>{String(record[8])}</td>
-                  <td id="s">{changeable(String(record[9]))}</td>
                   <td>
                     <button
                       className="btn btn-success"
-                      onClick={() => Update(record[9], record[0])}
+                      type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
                     >
-                      Update
+                      Book
                     </button>
                   </td>
                 </tr>
@@ -430,8 +440,73 @@ function AdminPanel() {
           </table>
         )}
       </div>
+
+
+      
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div className="modal-dialog" role="document">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">Book Ride</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+              </div>
+              <div className="modal-body">
+                {/* Form inputs for start and destination locations, fare amount, time, user name, and phone number */}
+                <div className="form-group">
+                  <label htmlFor="startLocation">Start Location:</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="startLocation"
+                    value={startLocation}
+                    onChange={(e) => setStartLocation(e.target.value)}
+                  />
+                   <label htmlFor="destinationLocation">Destination Location:</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="destinationLocation"
+                    value={destinationLocation}
+                    onChange={(e) => setDestinationLocation(e.target.value)}
+                  />
+                </div>
+                <label htmlFor="userName">Your Name:</label>
+                <input
+                    type="text"
+                    className="form-control"
+                    id="userName"
+                    value={userName}
+                    onChange={(e) => setUserName(e.target.value)}
+                />
+                <label htmlFor="userPhoneNumber">Your Phone Number:</label>
+                <input
+                    type="text"
+                    className="form-control"
+                    id="userPhoneNumber"
+                    value={userPhoneNumber}
+                    onChange={(e) => setUserPhoneNumber(e.target.value)}
+                />
+              
+              </div>
+              <div className="modal-footer">
+             
+                <button type="button" className="btn btn-primary" onClick={handleConfirm}>
+                  Confirm
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+      
+
     </>
   );
 }
 
-export default AdminPanel;
+export default Rider;
+
+
