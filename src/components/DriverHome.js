@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
+import { getDatabase, ref, set ,get,remove} from "firebase/database";
+import { register } from '../firebaseConfig';
 
 const DriverHome = (props) => {
   const [currentLocation, setCurrentLocation] = useState('');
@@ -6,23 +8,28 @@ const DriverHome = (props) => {
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const [driverId, setDriverId] = useState('Driver_1'); 
   const [customerDetails, setCustomerDetails] = useState([
-    {
-      customerName: 'Customer 1',
-      phoneNumber: '1234567890',
-      startLocation: 'Start Location 1',
-      endLocation: 'End Location 1',
-      fare: '$50',
-      acceptedBy: null
-    },
-    {
-      customerName: 'Customer 2',
-      phoneNumber: '9876543210',
-      startLocation: 'Start Location 2',
-      endLocation: 'End Location 2',
-      fare: '$70',
-      acceptedBy: null
-    },
+   
   ]);
+
+
+  const fetchPosts = async () => {
+    const db = getDatabase();
+    const userRef = ref(db, "rides");
+    const userSnapshot = await get(userRef);
+    const fetchedPosts = userSnapshot.val();
+    if (fetchedPosts) {
+      const postsArray = Object.keys(fetchedPosts).map((key) => ({
+        id: key,
+        ...fetchedPosts[key],
+      }));
+      setCustomerDetails(postsArray);
+    }
+
+};
+
+  useEffect(() => {
+    fetchPosts();
+  }, []);
 
   const acceptRequest = (index) => {
     const updatedCustomerDetails = customerDetails.map((customer, i) => {
@@ -31,6 +38,7 @@ const DriverHome = (props) => {
       }
       return customer;
     });
+    register(updatedCustomerDetails[index])
     setCustomerDetails(updatedCustomerDetails);
     setSelectedCustomer(updatedCustomerDetails[index]);
     console.log(customerDetails)
@@ -40,10 +48,14 @@ const DriverHome = (props) => {
     if (selectedCustomer) {
       const updatedCustomerDetails = customerDetails.map((customer) => {
         if (customer === selectedCustomer) {
+          let data ={ ...customer, rideEnded: true, paymentMode }
+           register(data)
           return { ...customer, rideEnded: true, paymentMode };
         }
+
         return customer;
       });
+     
       setCustomerDetails(updatedCustomerDetails);
       setSelectedCustomer(null);
     }
@@ -127,7 +139,7 @@ const DriverHome = (props) => {
         </button>
       </div>
 
-      <table className="table">
+      <table className="table mb-5">
       <thead>
           <tr>
             <th>Customer Name</th>

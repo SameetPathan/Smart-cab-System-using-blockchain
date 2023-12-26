@@ -2,6 +2,8 @@ import React from "react";
 import { useEffect } from "react";
 import { ethers } from "ethers";
 import { useState } from "react";
+import { register } from "../firebaseConfig";
+import { getDatabase, ref, set ,get,remove} from "firebase/database";
 
 const DriverContractAddress = "0x22b8424720F0EE1A55dEB24176Da80640138064d";
 const abiDriverContract = [
@@ -316,27 +318,60 @@ function Rider() {
   const [rideTime, setRideTime] = useState("");
   const [userName, setUserName] = useState("");
   const [userPhoneNumber, setUserPhoneNumber] = useState("");
+  const [customerDetails, setCustomerDetails] = useState([
+   
+  ]);
+
+  const generateRandomFare = () => {
+    return Math.floor(Math.random() * (600 - 200 + 1)) + 200;
+  };
+
+    const fetchPosts = async () => {
+    const db = getDatabase();
+    const userRef = ref(db, "rides");
+    const userSnapshot = await get(userRef);
+    const fetchedPosts = userSnapshot.val();
+    if (fetchedPosts) {
+      const postsArray = Object.keys(fetchedPosts).map((key) => ({
+        id: key,
+        ...fetchedPosts[key],
+      }));
+      setCustomerDetails(postsArray);
+    }
+
+};
+
+  useEffect(() => {
+    fetchPosts();
+  }, []);
 
 
   const handleConfirm = () => {
+
+    const fare = generateRandomFare();
     const bookingData = {
       "startLocation":startLocation,
       "endLocation":destinationLocation,
-      "fare":fareAmount,
+      "fare":fare,
       "time":rideTime,
       "customerName":userName,
       "phoneNumber":userPhoneNumber,
     };
     console.log("###Booking: ",bookingData)
-
-    setStartLocation("");
-    setDestinationLocation("");
-    setFareAmount(0);
-    setRideTime("");
-    setUserName("");
-    setUserPhoneNumber("");
+    register(bookingData);
    
+  
+      setStartLocation("");
+      setDestinationLocation("");
+      setFareAmount(0);
+      setRideTime("");
+      setUserName("");
+      setUserPhoneNumber("");
+    
   };
+
+
+  
 
 
   const handleLocationChange = (e) => {
@@ -500,8 +535,45 @@ function Rider() {
           </div>
         </div>
 
+<div className="container">
+<div class="alert alert-success" role="alert">
+       History
+      </div>
 
-      
+        <table className="table">
+      <thead>
+          <tr>
+            <th>Start Location</th>
+            <th>Destination Location</th>
+            <th>Fare</th>
+            <th>Accepted By</th>
+            <th>payment Mode</th>
+            <th>Status</th>
+            <th>Ride</th>
+          </tr>
+        </thead>
+        <tbody>
+          {customerDetails.map((customer, index) => (
+            <tr key={index}>
+              <td>{customer.startLocation}</td>
+              <td>{customer.endLocation}</td>
+              <td>{customer.fare}</td>
+              <td>{customer.acceptedBy}</td>
+              
+              <td>{customer.paymentMode}</td>{customer.acceptedBy && (
+              <td>{customer.accepted === true?"Accepted":"Rejected"}</td>
+              
+              
+          )}
+          <td>{customer.rideEnded === true?"Ride Ended":"Starting.."}</td>
+              
+              <td>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      </div>
 
     </>
   );
