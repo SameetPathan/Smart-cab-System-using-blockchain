@@ -2,7 +2,12 @@ import React from "react";
 import { useEffect } from "react";
 import { ethers } from "ethers";
 import { useState } from "react";
-
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Link
+} from 'react-router-dom';
 const DriverContractAddress = "0x22b8424720F0EE1A55dEB24176Da80640138064d";
 const abiDriverContract = [
   {
@@ -373,100 +378,107 @@ function AddDriver(props) {
 
   return (
     <>
-      <div className="container shadow-lg p-3 mb-5 bg-white rounded mt-3 mb-4">
-        <form className="needs-validation" id="myForm" noValidate>
-          <div className="form-row">
-            <div className="col-lg-4 col-md-6 mb-3">
-              <label htmlFor="validationCustom01">Driver ID</label>
-              <input
-                type="text"
-                className="form-control"
-                value={account}
-                id="DriverID"
-                disabled
-                required
-              />
-              <div className="valid-feedback">Looks good!</div>
-            </div>
-
-            <div className="col-lg-2 col-md-6 mb-3">
-              <label htmlFor="validationCustom01">Driver name</label>
-              <input type="text" className="form-control" id="DriverName" required />
-              <div className="valid-feedback">Looks good!</div>
-            </div>
-
-            <div className="col-lg-2 col-md-6 mb-3">
-              <label htmlFor="validationCustom02">Experience</label>
-              <input
-                type="text"
-                className="form-control"
-                id="Experience"
-                required
-              />
-              <div className="valid-feedback">Looks good!</div>
-            </div>
-
-            <div className="col-lg-2 col-md-6 mb-3">
-              <label htmlFor="validationCustom02">Phone Number</label>
-              <input
-                type="number"
-                className="form-control"
-                id="PhoneNumber"
-                required
-              />
-              <div className="valid-feedback">Looks good!</div>
-            </div>
+    <div style={{marginBottom:"150px"}}>
+    <div className="container">
+      <Link to="/driver" className="btn btn-primary btn-block mb-4">
+        Return to Dashboard
+      </Link>
+    </div>
+  
+    <div className="container shadow p-4 mb-5 bg-white rounded">
+      <form className="needs-validation" id="myForm" noValidate>
+        <div className="form-row">
+          <div className="col-lg-4 col-md-6 mb-3">
+            <label htmlFor="DriverID">Driver ID</label>
+            <input
+              type="text"
+              className="form-control"
+              value={account}
+              id="DriverID"
+              disabled
+              required
+            />
+            <div className="valid-feedback">Looks good!</div>
           </div>
-
-          <div className="form-row">
-            <div className="col-lg-4 form-group">
-              <label htmlFor="inputAddress">Address</label>
-              <input
-                type="text"
-                className="form-control"
-                id="Address"
-                placeholder="Flat, Wing, House Name"
-              />
-            </div>
-        
+  
+          <div className="col-lg-4 col-md-6 mb-3">
+            <label htmlFor="DriverName">Driver Name</label>
+            <input type="text" className="form-control" id="DriverName" required />
+            <div className="valid-feedback">Looks good!</div>
           </div>
-
-         
-          <div className="form-row">
-            <div className="col-lg-2 col-md-6 mb-3">
-              <label htmlFor="validationCustom02">Car Register Number</label>
-              <input
-                type="text"
-                className="form-control"
-                id="CarRegisterNumber"
-                required
-              />
-              <div className="valid-feedback">Looks good!</div>
-            </div>
-
-            <div className="col-lg-2 col-md-6 mb-3">
-              <label htmlFor="validationCustom01">Car Name</label>
-              <input type="text" className="form-control" id="CarName" required />
-              <div className="valid-feedback">Looks good!</div>
-            </div>
-
-            <div className="col-lg-2 col-md-6 mb-3">
-              <label htmlFor="validationCustom01">License Number</label>
-              <input
-                type="text"
-                className="form-control"
-                id="LicenseNumber"
-                required
-              />
-              <div className="valid-feedback">Looks good!</div>
-            </div>
+  
+          <div className="col-lg-2 col-md-6 mb-3">
+            <label htmlFor="Experience">Experience</label>
+            <input
+              type="number"
+              className="form-control"
+              id="Experience"
+              required
+            />
+            <div className="valid-feedback">Looks good!</div>
           </div>
-        </form>
-        <button onClick={savedata} className="btn btn-success mb-5">
+  
+          <div className="col-lg-2 col-md-6 mb-3">
+            <label htmlFor="PhoneNumber">Phone Number</label>
+            <input
+              type="number"
+              className="form-control"
+              id="PhoneNumber"
+              required
+            />
+            <div className="valid-feedback">Looks good!</div>
+          </div>
+        </div>
+  
+        <div className="form-row">
+          <div className="col-lg-6 mb-3">
+            <label htmlFor="Address">Address</label>
+            <input
+              type="text"
+              className="form-control"
+              id="Address"
+              placeholder="Flat, Wing, House Name"
+            />
+          </div>
+        </div>
+  
+        <div className="form-row">
+          <div className="col-lg-4 col-md-6 mb-3">
+            <label htmlFor="CarRegisterNumber">Car Register Number</label>
+            <input
+              type="text"
+              className="form-control"
+              id="CarRegisterNumber"
+              required
+            />
+            <div className="valid-feedback">Looks good!</div>
+          </div>
+  
+          <div className="col-lg-4 col-md-6 mb-3">
+            <label htmlFor="CarName">Car Name</label>
+            <input type="text" className="form-control" id="CarName" required />
+            <div className="valid-feedback">Looks good!</div>
+          </div>
+  
+          <div className="col-lg-4 col-md-6 mb-3">
+            <label htmlFor="LicenseNumber">License Number</label>
+            <input
+              type="text"
+              className="form-control"
+              id="LicenseNumber"
+              required
+            />
+            <div className="valid-feedback">Looks good!</div>
+          </div>
+        </div>
+        <button onClick={savedata} className="btn btn-success mt-3">
           Save
         </button>
-      </div>
-    </>
+      </form>
+    </div>
+    </div>
+  </>
+  
   );
 }
 

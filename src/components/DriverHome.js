@@ -1,6 +1,128 @@
 import React, { useState,useEffect } from 'react';
 import { getDatabase, ref, set ,get,remove} from "firebase/database";
 import { register } from '../firebaseConfig';
+import { ethers } from "ethers";
+import '../footer.css';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Link
+} from 'react-router-dom';
+
+const DriverContractAddress = "0x83E722B79002a1392Ab7BEf7846A79665a3277B3";
+const abiDriverContract = [
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "DriverID",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "DriverName",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "CustomerName",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "Money",
+				"type": "uint256"
+			}
+		],
+		"name": "addRide",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getNumberOfRides",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "index",
+				"type": "uint256"
+			}
+		],
+		"name": "getRide",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "Rides",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "DriverID",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "DriverName",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "CustomerName",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "Money",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+];
+
 
 const DriverHome = (props) => {
   const [currentLocation, setCurrentLocation] = useState('');
@@ -10,6 +132,46 @@ const DriverHome = (props) => {
   const [customerDetails, setCustomerDetails] = useState([
    
   ]);
+
+  const [account, setAccount] = useState(null);
+
+  const setacc = async () => {
+    const { ethereum } = window;
+    const accounts = await ethereum.request({ method: "eth_accounts" });
+    setAccount(accounts[0]);
+  };
+
+  const savedata = async () => {
+    try {
+      const { ethereum } = window;
+
+      if (ethereum) {
+        const provider = new ethers.providers.Web3Provider(ethereum);
+        const signer = provider.getSigner();
+
+        const DriverContract = new ethers.Contract(
+          DriverContractAddress,
+          abiDriverContract,
+          signer
+        );
+
+        let Txn2 = await DriverContract.addRide(
+          account,
+          "Driver",
+          "Rider",
+          100,
+		
+        );
+        endRide('online')
+        await Txn2.wait();
+        alert("Payment initianted Success");
+      } else {
+        alert("Ethereum object does not exist");
+      }
+    } catch (err) {
+      alert(err);
+    }
+  };
 
 
   const fetchPosts = async () => {
@@ -116,31 +278,48 @@ const DriverHome = (props) => {
     }
   };
 
+  useEffect(() => {
+    setacc();
+  });
+
   return (
     <>
-      <div className="container shadow-lg p-3 mb-5 bg-white rounded mt-3 mb-4">
-        <label htmlFor="currentLocation">Current Location<strong className='text-info'>(Always keep your location updated)</strong></label>
-        <input
-          type="text"
-          className="form-control"
-          id="currentLocation"
-          placeholder="Enter current location"
-          value={currentLocation}
-          onChange={(e) => setCurrentLocation(e.target.value)}
-        />
-        <button onClick={getLocation} className="btn btn-primary mt-2">
-          Get Current Location
-        </button>
-        <button onClick={openNavigation} className="btn btn-primary mt-2 ml-2" disabled={!selectedCustomer}>
-          Navigate to Customer
-        </button>
-        <button onClick={openNavigation2} className="btn btn-success mt-2 ml-2" disabled={!selectedCustomer}>
-          Start Ride
-        </button>
+    <div style={{ marginBottom: "160px" }}>
+      <div className="container shadow p-3 bg-white rounded mt-3 mb-4">
+        <Link to="/add-ride" className="btn btn-primary btn-block mt-4 mb-4">
+          Add More Ride
+        </Link>
+        <label htmlFor="currentLocation">
+          Current Location
+          <strong className='text-info'>(Always keep your location updated)</strong>
+        </label>
+        <div className="input-group">
+          <input
+            type="text"
+            className="form-control"
+            id="currentLocation"
+            placeholder="Enter current location"
+            value={currentLocation}
+            onChange={(e) => setCurrentLocation(e.target.value)}
+          />
+          <div className="input-group-append">
+            <button onClick={getLocation} className="btn btn-primary" type="button">
+              Get Current Location
+            </button>
+          </div>
+        </div>
+        <div className="mt-2">
+          <button onClick={openNavigation} className="btn btn-primary" disabled={!selectedCustomer}>
+            Navigate to Customer
+          </button>
+          <button onClick={openNavigation2} className="btn btn-success ml-2" disabled={!selectedCustomer}>
+            Start Ride
+          </button>
+        </div>
       </div>
-
-      <table className="table mb-5">
-      <thead>
+  <div className='container'>
+      <table className="table table-responsive">
+        <thead className="thead-dark">
           <tr>
             <th>Customer Name</th>
             <th>Phone Number</th>
@@ -150,7 +329,7 @@ const DriverHome = (props) => {
             <th>Action</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody className='text-white bg-dark'>
           {customerDetails.map((customer, index) => (
             <tr key={index}>
               <td>{customer.customerName}</td>
@@ -160,17 +339,19 @@ const DriverHome = (props) => {
               <td>{customer.fare}</td>
               <td>
                 {customer.acceptedBy === driverId ? (
-                    <>{customer.paymentMode ?
-                        <p>Ride Ended</p>:
-                        <p>Ride Accepted</p>
-                    }
-                    {!customer.paymentMode && (
+                  <>
+                    {customer.paymentMode ? (
+                      <p>Ride Ended</p>
+                    ) : (
                       <>
                         <button onClick={() => endRide('cash')} className="btn btn-primary mr-2">
                           End Ride - Cash
                         </button>
                         <button onClick={() => endRide('online')} className="btn btn-primary">
                           End Ride - Online
+                        </button>
+                        <button onClick={() =>{savedata();endRide('online')}} className="btn btn-primary m-1">
+                          End Ride - Blockchain Payment
                         </button>
                       </>
                     )}
@@ -180,20 +361,19 @@ const DriverHome = (props) => {
                 ) : customer.paymentMode ? (
                   <p>Ride Ended</p>
                 ) : (
-                  <>
-                    <button onClick={() => acceptRequest(index)} className="btn btn-success">
-                      Accept
-                    </button>
-                   
-                  </>
+                  <button onClick={() => acceptRequest(index)} className="btn btn-success">
+                    Accept
+                  </button>
                 )}
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-
-    </>
+      </div>
+    </div>
+  </>
+  
   );
 };
 

@@ -355,7 +355,7 @@ function App() {
 
   return <>
 
-    <div className="App">
+    <div className="App" style={{ backgroundImage: `url('bg.jpg')`, backgroundSize: 'cover', backgroundPosition: 'center', minHeight: '100vh' }}>
         
         
 
@@ -366,7 +366,8 @@ function App() {
             <div className='container-fluid mt-4'>
            
               <Routes> 
-               
+              <Route exact path='/add-ride' element={<AddDriver currentAccount={currentAccount} currentBalance={currentBalance} setCurrentBalanace={setCurrentBalanace}></AddDriver> }></Route>
+
                 <Route exact path='/' element={<UserTypeComponent></UserTypeComponent>}></Route>
             {DriverStatus ?
                 <Route exact path='/driver' element={<AddDriver currentAccount={currentAccount} currentBalance={currentBalance} setCurrentBalanace={setCurrentBalanace}></AddDriver> }></Route>

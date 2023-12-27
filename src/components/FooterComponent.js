@@ -4,7 +4,7 @@ function FooterComponent() {
 
   return(
 <>
-	<div className="copyright fixed-bottom ">
+	<div className="copyright">
 		<div className="container-fluid text-center ">
 					<p>Copyrights &copy; 2023 - <a href="#">Blockchain Cab Booking</a>,  All Rights Reserved.<br></br>
 					</p>

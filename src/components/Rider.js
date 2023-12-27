@@ -4,7 +4,7 @@ import { ethers } from "ethers";
 import { useState } from "react";
 import { register } from "../firebaseConfig";
 import { getDatabase, ref, set ,get,remove} from "firebase/database";
-
+import '../footer.css';
 const DriverContractAddress = "0x22b8424720F0EE1A55dEB24176Da80640138064d";
 const abiDriverContract = [
   {
@@ -541,7 +541,7 @@ function Rider() {
       </div>
 
         <table className="table">
-      <thead>
+      <thead className="thead-dark">
           <tr>
             <th>Start Location</th>
             <th>Destination Location</th>
@@ -550,9 +550,10 @@ function Rider() {
             <th>payment Mode</th>
             <th>Status</th>
             <th>Ride</th>
+            <th></th>
           </tr>
         </thead>
-        <tbody>
+        <tbody className="text-white bg-dark">
           {customerDetails.map((customer, index) => (
             <tr key={index}>
               <td>{customer.startLocation}</td>
@@ -574,6 +575,9 @@ function Rider() {
         </tbody>
       </table>
       </div>
+
+
+
 
     </>
   );
