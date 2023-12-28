@@ -37,20 +37,19 @@ function UserTypeComponent(props) {
               </div>
             </div>
           </div>
-    {props.currentAccount ==="0x9c6bcf6483444b19d5a4b9611f13cac9f1c48864" || props.currentAccount === "0xD32899C66Be4a14128D613C7756c8e2deD1d35F7" || props.currentAccount === "0x53611EeBcea0Cb73b74142eAa3b48d03bf2BCCDd" ?
+
           <div className='col-lg-4'>
             <div className='card mb-4'>
               <div className="card-body text-center">
                 <h5 className="card-title">Admin Login</h5>
-                <p className="card-text">For admin access</p>
+                <p className="card-text">For admin access </p>
                 <Link to="/admin" className="btn btn-primary btn-block">
                   Admin Login
                 </Link>
               </div>
             </div>
           </div>
-          :null
-    }
+      
 
         </div>
       </div>

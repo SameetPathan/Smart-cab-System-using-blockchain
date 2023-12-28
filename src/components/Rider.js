@@ -571,9 +571,13 @@ function Rider() {
             <th>Start Location</th>
             <th>Destination Location</th>
             <th>Fare</th>
+			
+			<th>is Sharing Ride</th>
+			
             <th>Accepted By</th>
             <th>payment Mode</th>
             <th>Status</th>
+			
             <th>Ride</th>
             <th></th>
           </tr>
@@ -584,6 +588,9 @@ function Rider() {
               <td>{customer.startLocation}</td>
               <td>{customer.endLocation}</td>
               <td>{customer.fare}</td>
+			 
+			  <td>{customer.ridesharing?"Sharing":"Non-Sharing"}</td>
+	
               <td>{customer.acceptedBy}</td>
               
               <td>{customer.paymentMode}</td>{customer.acceptedBy && (

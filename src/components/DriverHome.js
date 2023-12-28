@@ -19,6 +19,59 @@ const DriverHome = (props) => {
   const [customerDetails, setCustomerDetails] = useState([
    
   ]);
+
+  const handleUpdateFare = () => {
+    if (selectedRecords.length > 0) {
+      const fareOfFirstRecord = selectedRecords[0].fare;
+      const halfFare = fareOfFirstRecord / 2;
+  
+      const updatedCustomerDetails = customerDetails.map((customer, index) => {
+        if (selectedRecords.some((record) => record.index === index) && customer.sharing) {
+          register({ ...customer, fare: halfFare });
+          return { ...customer, fare: halfFare };
+        }
+        return customer;
+      });
+  
+      setCustomerDetails(updatedCustomerDetails);
+    }
+  };
+
+  const [selectedRecords, setSelectedRecords] = useState([]);
+
+  const handleAlert = () => {
+    console.log("##selectedRecords: ",selectedRecords)
+    if (selectedRecords.length > 0) {
+      const fareOfFirstRecord = selectedRecords[0].fare;
+      const halfFare = fareOfFirstRecord / 2;
+      alert(`Sharing Price: ${halfFare}`);
+      handleUpdateFare()
+    } 
+  };
+
+  const handleCheckboxChange = (record) => {
+    //handlesharing(record.index)
+    const selectedIndex = selectedRecords.findIndex((selectedRecord) => selectedRecord.index === record.index);
+
+    if (selectedIndex === -1 && selectedRecords.length < 2) {
+      setSelectedRecords([...selectedRecords, record]);
+    } else if (selectedIndex !== -1) {
+      const updatedSelectedRecords = [...selectedRecords];
+      updatedSelectedRecords.splice(selectedIndex, 1);
+      setSelectedRecords(updatedSelectedRecords);
+    }
+  };
+
+  const handlesharing = (index,issharing) => {
+    const updatedCustomerDetails = customerDetails.map((customer, i) => {
+      if (i === index) {
+        return { ...customer, sharing: !issharing,ridesharing:!issharing};
+      }
+      return customer;
+    });
+    register(updatedCustomerDetails[index])
+    setCustomerDetails(updatedCustomerDetails);
+  };
   
   
 const RideContractAddress = "0x83E722B79002a1392Ab7BEf7846A79665a3277B3";
@@ -137,6 +190,15 @@ const abiRideContract = [
 
   const [account, setAccount] = useState(null);
 
+  const filteredRecords = currentLocation === ""
+  ? customerDetails 
+  : customerDetails.filter(
+      (record) =>
+        String(currentLocation)
+          .toLowerCase()
+          .includes(record.startLocation.toLowerCase())
+    );
+
   const setacc = async () => {
     const { ethereum } = window;
     const accounts = await ethereum.request({ method: "eth_accounts" });
@@ -209,23 +271,39 @@ const abiRideContract = [
     console.log(customerDetails)
   };
 
-  const endRide = (paymentMode) => {
-    if (selectedCustomer) {
-      const updatedCustomerDetails = customerDetails.map((customer) => {
-        if (customer === selectedCustomer) {
-          let data ={ ...customer, rideEnded: true, paymentMode }
-           register(data)
+  const endRide = (customerIndex, paymentMode) => {
+    if (customerIndex >= 0 && customerIndex < customerDetails.length) {
+      const updatedCustomerDetails = customerDetails.map((customer, index) => {
+        if (index === customerIndex) {
+          let data = { ...customer, rideEnded: true, paymentMode };
+          register(data);
           return { ...customer, rideEnded: true, paymentMode };
         }
-
         return customer;
       });
-     
+  
       setCustomerDetails(updatedCustomerDetails);
       setSelectedCustomer(null);
     }
-     console.log(customerDetails)
   };
+
+  // const endRide = (paymentMode) => {
+  //   if (selectedCustomer) {
+  //     const updatedCustomerDetails = customerDetails.map((customer) => {
+  //       if (customer === selectedCustomer) {
+  //         let data ={ ...customer, rideEnded: true, paymentMode }
+  //          register(data)
+  //         return { ...customer, rideEnded: true, paymentMode };
+  //       }
+
+  //       return customer;
+  //     });
+     
+  //     setCustomerDetails(updatedCustomerDetails);
+  //     setSelectedCustomer(null);
+  //   }
+  //    console.log(customerDetails)
+  // };
 
   const getLocation = () => {
     if (navigator.geolocation) {
@@ -287,14 +365,15 @@ const abiRideContract = [
 
   return (
     <>
-    <div style={{ marginBottom: "160px" }}>
+    <div>
       <div className="container shadow p-3 bg-white rounded mt-3 mb-4">
         <Link to="/addride" className="btn btn-primary btn-block mt-4 mb-4">
           Add More Ride
         </Link>
         <label htmlFor="currentLocation">
           Current Location
-          <strong className='text-info'>(Always keep your location updated)</strong>
+          <strong className='text-info'>(Always keep your location updated)</strong><br></br>
+          <strong className='text-primary'>(For finding sharing ride please check if any customer available at current Location or upcoming location)</strong>
         </label>
         <div className="input-group">
           <input
@@ -318,6 +397,9 @@ const abiRideContract = [
           <button onClick={openNavigation2} className="btn btn-success ml-2" disabled={!selectedCustomer}>
             Start Ride
           </button>
+          <button onClick={handleAlert} className="btn btn-success ml-2" >
+            Sharing Price
+          </button>
         </div>
       </div>
   <div className='container'>
@@ -329,17 +411,29 @@ const abiRideContract = [
             <th>Start Location</th>
             <th>Destination Location</th>
             <th>Fare</th>
+            <th>Sharing Ride</th>
             <th>Action</th>
           </tr>
         </thead>
         <tbody className='text-white bg-dark'>
-          {customerDetails.map((customer, index) => (
+          {filteredRecords.map((customer, index) => (
             <tr key={index}>
               <td>{customer.customerName}</td>
               <td>{customer.phoneNumber.slice(0, -3)}</td>
               <td>{customer.startLocation}</td>
               <td>{customer.endLocation}</td>
               <td>{customer.fare}</td>
+              {customer.accepted === true && !customer.rideEnded ?
+              <td>
+                <input
+                  type="checkbox"
+                  onChange={() => { handleCheckboxChange({ ...customer, index })
+                  handlesharing(index,customer.sharing)}}
+                  checked={customer.sharing}
+                  disabled={selectedRecords.length === 2 && !selectedRecords.some((selected) => selected.index === index)}
+                />
+              </td>
+              :<td></td>}
               <td>
                 {customer.acceptedBy === driverId ? (
                   <>
@@ -347,14 +441,14 @@ const abiRideContract = [
                       <p>Ride Ended</p>
                     ) : (
                       <>
-                        <button onClick={() => endRide('cash')} className="btn btn-primary mr-2">
+                        <button onClick={() => endRide(index,'cash')} className="btn btn-primary mr-2">
                           End Ride - Cash
                         </button>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal12">
+                        <button type="button" class="btn btn-primary" onClick={() => endRide(index,'Online')}  data-toggle="modal" data-target="#exampleModal12">
                         End Ride - Online
                         </button>
                         
-                        <button onClick={() =>{savedata()}} className="btn btn-primary m-1">
+                        <button onClick={() =>{savedata();endRide(index,'Blockchain')}} className="btn btn-primary m-1">
                           End Ride - Blockchain Payment
                         </button>
                       </>
@@ -392,7 +486,7 @@ const abiRideContract = [
       </div>
       <div class="modal-footer">
         <button onClick={() => endRide('online')} className="btn btn-primary" data-dismiss="modal">
-          Confirm
+          Done
         </button>
       </div>
     </div>
