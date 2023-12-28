@@ -8,7 +8,7 @@ import {
 import '../footer.css';
 import OurService from './OurService';
 
-function UserTypeComponent() {
+function UserTypeComponent(props) {
   return (
     <>
     <div className='container-fluid' >
@@ -37,7 +37,7 @@ function UserTypeComponent() {
               </div>
             </div>
           </div>
-    
+    {props.currentAccount ==="0x9c6bcf6483444b19d5a4b9611f13cac9f1c48864" || props.currentAccount === "0xD32899C66Be4a14128D613C7756c8e2deD1d35F7" || props.currentAccount === "0x53611EeBcea0Cb73b74142eAa3b48d03bf2BCCDd" ?
           <div className='col-lg-4'>
             <div className='card mb-4'>
               <div className="card-body text-center">
@@ -49,6 +49,9 @@ function UserTypeComponent() {
               </div>
             </div>
           </div>
+          :null
+    }
+
         </div>
       </div>
     </div>

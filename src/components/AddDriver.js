@@ -8,7 +8,7 @@ import {
   Route,
   Link
 } from 'react-router-dom';
-const DriverContractAddress = "0x5A96eA97518353ADCE1aa3C461c93E02d967BF4F";
+const DriverContractAddress = "0x92C771E595d20167E53eB217006C59e6656F1e23";
 const abiDriverContract = [
 	{
 		"inputs": [
@@ -28,6 +28,11 @@ const abiDriverContract = [
 			{
 				"internalType": "string",
 				"name": "DriverName",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "birthdate",
 				"type": "string"
 			},
 			{
@@ -84,6 +89,11 @@ const abiDriverContract = [
 			{
 				"internalType": "string",
 				"name": "DriverName",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "birthdate",
 				"type": "string"
 			},
 			{
@@ -149,6 +159,11 @@ const abiDriverContract = [
 						"type": "string"
 					},
 					{
+						"internalType": "string",
+						"name": "birthdate",
+						"type": "string"
+					},
+					{
 						"internalType": "uint256",
 						"name": "Experience",
 						"type": "uint256"
@@ -207,6 +222,11 @@ const abiDriverContract = [
 		],
 		"name": "getDriver",
 		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
 			{
 				"internalType": "string",
 				"name": "",
@@ -376,13 +396,15 @@ function AddDriver(props) {
         const CarRegisterNumber = document.getElementById("CarRegisterNumber").value;
         const CarName = document.getElementById("CarName").value;
         const LicenseNumber = document.getElementById("LicenseNumber").value;
-        const CurrentLocation = "Pune";
+        const CurrentLocation = document.getElementById("Address").value;
+		const Birthdate = document.getElementById("birthdate").value;
 		    const status = 0;
 
 
         let Txn2 = await DriverContract.addDriver(
 			DriverID,
 			DriverName,
+			Birthdate,
 			parseInt(Experience),
 			userPhoneNumber,
 			Address,
@@ -438,7 +460,7 @@ function AddDriver(props) {
       <form id="myForm">
         <div className="form-row">
           <div className="col-lg-4 col-md-6 mb-3">
-            <label htmlFor="DriverID">Driver ID</label>
+            <label htmlFor="DriverID">Agency ID</label>
             <input
               type="text"
               className="form-control"
@@ -453,6 +475,12 @@ function AddDriver(props) {
           <div className="col-lg-4 col-md-6 mb-3">
             <label htmlFor="DriverName">Driver Name</label>
             <input type="text" className="form-control" id="DriverName" required />
+            <div className="valid-feedback">Looks good!</div>
+          </div>
+
+		  <div className="col-lg-4 col-md-6 mb-3">
+            <label htmlFor="birthdate">Birth Date</label>
+            <input type="date" className="form-control" id="birthdate" required />
             <div className="valid-feedback">Looks good!</div>
           </div>
   

@@ -368,7 +368,7 @@ function App() {
               <Routes> 
              <Route exact path='/addride' element={<AddDriver currentAccount={currentAccount} currentBalance={currentBalance} setCurrentBalanace={setCurrentBalanace}></AddDriver> }></Route>
 
-                <Route exact path='/' element={<UserTypeComponent></UserTypeComponent>}></Route>
+                <Route exact path='/' element={<UserTypeComponent currentAccount={currentAccount}></UserTypeComponent>}></Route>
            
             <Route exact path='/driver' element={<DriverHome currentAccount={currentAccount} currentBalance={currentBalance} setCurrentBalanace={setCurrentBalanace}></DriverHome> }></Route>
 

@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { ethers } from "ethers";
 import { useState } from "react";
 
-const DriverContractAddress = "0x5A96eA97518353ADCE1aa3C461c93E02d967BF4F";
+const DriverContractAddress = "0x92C771E595d20167E53eB217006C59e6656F1e23";
 const abiDriverContract = [
 	{
 		"inputs": [
@@ -23,6 +23,11 @@ const abiDriverContract = [
 			{
 				"internalType": "string",
 				"name": "DriverName",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "birthdate",
 				"type": "string"
 			},
 			{
@@ -79,6 +84,11 @@ const abiDriverContract = [
 			{
 				"internalType": "string",
 				"name": "DriverName",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "birthdate",
 				"type": "string"
 			},
 			{
@@ -144,6 +154,11 @@ const abiDriverContract = [
 						"type": "string"
 					},
 					{
+						"internalType": "string",
+						"name": "birthdate",
+						"type": "string"
+					},
+					{
 						"internalType": "uint256",
 						"name": "Experience",
 						"type": "uint256"
@@ -202,6 +217,11 @@ const abiDriverContract = [
 		],
 		"name": "getDriver",
 		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
 			{
 				"internalType": "string",
 				"name": "",
@@ -389,9 +409,10 @@ function AdminPanel() {
           <table className="table table-bordered">
             <thead className="thead-dark">
               <tr>
-                <th scope="col">Driver ID</th>
+                <th scope="col">Agency ID</th>
 
                 <th scope="col">Driver Name</th>
+				<th scope="col">Birthdate</th>
                 <th scope="col">Experience</th>
                 <th scope="col">Phone Number</th>
                 <th scope="col">Address</th>
@@ -415,7 +436,8 @@ function AdminPanel() {
                   <td>{String(record[6])}</td>
                   <td>{String(record[7])}</td>
                   <td>{String(record[8])}</td>
-                  <td id="s">{changeable(String(record[9]))}</td>
+				  <td>{String(record[9])}</td>
+                  <td id="s">{changeable(String(record[10]))}</td>
                   <td className="d-flex align-items-center">
   <a
     href="https://parivahan.gov.in/rcdlstatus/?pur_cd=101"
@@ -427,7 +449,7 @@ function AdminPanel() {
   </a>
   <button
     className="btn btn-success"
-    onClick={() => Update(record[9], record[0])}
+    onClick={() => Update(record[10], record[0])}
   >
     Update
   </button>

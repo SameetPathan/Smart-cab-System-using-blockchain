@@ -5,7 +5,7 @@ import { useState } from "react";
 import { register } from "../firebaseConfig";
 import { getDatabase, ref, set ,get,remove} from "firebase/database";
 import '../footer.css';
-const DriverContractAddress = "0x5A96eA97518353ADCE1aa3C461c93E02d967BF4F";
+const DriverContractAddress = "0x92C771E595d20167E53eB217006C59e6656F1e23";
 const abiDriverContract = [
 	{
 		"inputs": [
@@ -25,6 +25,11 @@ const abiDriverContract = [
 			{
 				"internalType": "string",
 				"name": "DriverName",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "birthdate",
 				"type": "string"
 			},
 			{
@@ -81,6 +86,11 @@ const abiDriverContract = [
 			{
 				"internalType": "string",
 				"name": "DriverName",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "birthdate",
 				"type": "string"
 			},
 			{
@@ -146,6 +156,11 @@ const abiDriverContract = [
 						"type": "string"
 					},
 					{
+						"internalType": "string",
+						"name": "birthdate",
+						"type": "string"
+					},
+					{
 						"internalType": "uint256",
 						"name": "Experience",
 						"type": "uint256"
@@ -204,6 +219,11 @@ const abiDriverContract = [
 		],
 		"name": "getDriver",
 		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
 			{
 				"internalType": "string",
 				"name": "",

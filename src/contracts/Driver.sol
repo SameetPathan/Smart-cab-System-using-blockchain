@@ -6,6 +6,7 @@ contract DriverContract {
     struct DriverData {
         address DriverID;
         string DriverName;
+        string birthdate;
         uint Experience;
         string PhoneNumber;
         string Address;
@@ -21,6 +22,7 @@ contract DriverContract {
     function addDriver(
         address DriverID,
         string memory DriverName,
+        string memory birthdate,
         uint Experience,
         string memory PhoneNumber,
         string memory Address,
@@ -33,6 +35,7 @@ contract DriverContract {
         DriverData memory d = DriverData(
             DriverID,
             DriverName,
+            birthdate,
             Experience,
             PhoneNumber,
             Address,
@@ -57,6 +60,7 @@ contract DriverContract {
     function getDriver(address DriverID) public view returns (
         string memory,
         string memory,
+        string memory,
         uint,
         string memory,
         string memory,
@@ -69,6 +73,7 @@ contract DriverContract {
             if (Drivers[i].DriverID == DriverID) {
                 return (
                     Drivers[i].DriverName,
+                    Drivers[i].birthdate,
                     Drivers[i].PhoneNumber,
                     Drivers[i].Experience,
                     Drivers[i].Address,
@@ -81,7 +86,7 @@ contract DriverContract {
             }
         }
 
-        return ("Not Found", "Not Found", 0, "Not Found", "Not Found", "Not Found", "Not Found", "Not Found", 0);
+        return ("Not Found","Not Found", "Not Found", 0, "Not Found", "Not Found", "Not Found", "Not Found", "Not Found", 0);
     }
 
     function getStatus(address DriverID) public view returns (uint) {

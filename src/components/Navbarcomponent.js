@@ -57,7 +57,7 @@ function Navbarcomponent(props) {
           </ul>
           {props.currentAccount ? 
 <div>
-            <span style={{ color: '#007BFF', fontWeight: 'bold' }}>Eth Balance: <span style={{color:"white"}}>{props.currentBalance}</span></span>&nbsp;&nbsp;
+            <span style={{ color: '#007BFF', fontWeight: 'bold' }}>Eth Balance: <span style={{color:"white"}}>{String(props.currentBalance)}</span></span>&nbsp;&nbsp;
               <span style={{ color: '#007BFF', fontWeight: 'bold' }}>Address: <span style={{color:"white"}}>{props.currentAccount}</span> </span>&nbsp;&nbsp;</div>
 : ""
 }
