@@ -482,10 +482,10 @@ function Rider() {
               {filteredRecords.map((record, index) => (
                 <tr key={index}>
                   <td>{String(record[1])}</td>
-                  <td>{String(record[3])}</td>
-                  <td>{String(record[5])}</td>
+                  <td>{String(record[4])}</td>
                   <td>{String(record[6])}</td>
-                  <td>{String(record[8])}</td>
+                  <td>{String(record[7])}</td>
+                  <td>{String(record[5])}</td>
                   <td>
                     <button
                       className="btn btn-success"
