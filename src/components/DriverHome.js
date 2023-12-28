@@ -10,8 +10,19 @@ import {
   Link
 } from 'react-router-dom';
 
-const DriverContractAddress = "0x83E722B79002a1392Ab7BEf7846A79665a3277B3";
-const abiDriverContract = [
+
+const DriverHome = (props) => {
+  const [currentLocation, setCurrentLocation] = useState('');
+  const [error, setError] = useState(null);
+  const [selectedCustomer, setSelectedCustomer] = useState(null);
+  const [driverId, setDriverId] = useState('Driver_1'); 
+  const [customerDetails, setCustomerDetails] = useState([
+   
+  ]);
+  
+  
+const RideContractAddress = "0x83E722B79002a1392Ab7BEf7846A79665a3277B3";
+const abiRideContract = [
 	{
 		"inputs": [
 			{
@@ -124,15 +135,6 @@ const abiDriverContract = [
 ];
 
 
-const DriverHome = (props) => {
-  const [currentLocation, setCurrentLocation] = useState('');
-  const [error, setError] = useState(null);
-  const [selectedCustomer, setSelectedCustomer] = useState(null);
-  const [driverId, setDriverId] = useState('Driver_1'); 
-  const [customerDetails, setCustomerDetails] = useState([
-   
-  ]);
-
   const [account, setAccount] = useState(null);
 
   const setacc = async () => {
@@ -149,22 +151,23 @@ const DriverHome = (props) => {
         const provider = new ethers.providers.Web3Provider(ethereum);
         const signer = provider.getSigner();
 
-        const DriverContract = new ethers.Contract(
-          DriverContractAddress,
-          abiDriverContract,
+        const RideContract = new ethers.Contract(
+          RideContractAddress,
+          abiRideContract,
           signer
         );
 
-        let Txn2 = await DriverContract.addRide(
+        let Txn2 = await RideContract.addRide(
           account,
           "Driver",
           "Rider",
           100,
 		
         );
-        endRide('online')
+       
         await Txn2.wait();
         alert("Payment initianted Success");
+        endRide('online')
       } else {
         alert("Ethereum object does not exist");
       }
@@ -286,7 +289,7 @@ const DriverHome = (props) => {
     <>
     <div style={{ marginBottom: "160px" }}>
       <div className="container shadow p-3 bg-white rounded mt-3 mb-4">
-        <Link to="/add-ride" className="btn btn-primary btn-block mt-4 mb-4">
+        <Link to="/addride" className="btn btn-primary btn-block mt-4 mb-4">
           Add More Ride
         </Link>
         <label htmlFor="currentLocation">
@@ -333,7 +336,7 @@ const DriverHome = (props) => {
           {customerDetails.map((customer, index) => (
             <tr key={index}>
               <td>{customer.customerName}</td>
-              <td>{customer.phoneNumber}</td>
+              <td>{customer.phoneNumber.slice(0, -3)}</td>
               <td>{customer.startLocation}</td>
               <td>{customer.endLocation}</td>
               <td>{customer.fare}</td>
@@ -347,10 +350,11 @@ const DriverHome = (props) => {
                         <button onClick={() => endRide('cash')} className="btn btn-primary mr-2">
                           End Ride - Cash
                         </button>
-                        <button onClick={() => endRide('online')} className="btn btn-primary">
-                          End Ride - Online
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal12">
+                        End Ride - Online
                         </button>
-                        <button onClick={() =>{savedata();endRide('online')}} className="btn btn-primary m-1">
+                        
+                        <button onClick={() =>{savedata()}} className="btn btn-primary m-1">
                           End Ride - Blockchain Payment
                         </button>
                       </>
@@ -372,6 +376,29 @@ const DriverHome = (props) => {
       </table>
       </div>
     </div>
+
+
+    <div class="modal fade" id="exampleModal12" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">QR Code Payment</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <img height={400} width={400} src="qrcode.jpeg" alt="QR Code" />
+      </div>
+      <div class="modal-footer">
+        <button onClick={() => endRide('online')} className="btn btn-primary" data-dismiss="modal">
+          Confirm
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
   </>
   
   );

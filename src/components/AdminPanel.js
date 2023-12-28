@@ -3,304 +3,304 @@ import { useEffect } from "react";
 import { ethers } from "ethers";
 import { useState } from "react";
 
-const DriverContractAddress = "0x22b8424720F0EE1A55dEB24176Da80640138064d";
+const DriverContractAddress = "0x5A96eA97518353ADCE1aa3C461c93E02d967BF4F";
 const abiDriverContract = [
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "DriverID",
-        type: "address",
-      },
-      {
-        internalType: "string",
-        name: "DriverName",
-        type: "string",
-      },
-      {
-        internalType: "uint256",
-        name: "Experience",
-        type: "uint256",
-      },
-      {
-        internalType: "string",
-        name: "PhoneNumber",
-        type: "string",
-      },
-      {
-        internalType: "string",
-        name: "Address",
-        type: "string",
-      },
-      {
-        internalType: "string",
-        name: "CarRegisterNumber",
-        type: "string",
-      },
-      {
-        internalType: "string",
-        name: "CarName",
-        type: "string",
-      },
-      {
-        internalType: "string",
-        name: "LicenseNumber",
-        type: "string",
-      },
-      {
-        internalType: "string",
-        name: "CurrentLocation",
-        type: "string",
-      },
-      {
-        internalType: "uint256",
-        name: "status",
-        type: "uint256",
-      },
-    ],
-    name: "addDriver",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "DriverID",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "status",
-        type: "uint256",
-      },
-    ],
-    name: "updateDriver",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    name: "Drivers",
-    outputs: [
-      {
-        internalType: "address",
-        name: "DriverID",
-        type: "address",
-      },
-      {
-        internalType: "string",
-        name: "DriverName",
-        type: "string",
-      },
-      {
-        internalType: "uint256",
-        name: "Experience",
-        type: "uint256",
-      },
-      {
-        internalType: "string",
-        name: "PhoneNumber",
-        type: "string",
-      },
-      {
-        internalType: "string",
-        name: "Address",
-        type: "string",
-      },
-      {
-        internalType: "string",
-        name: "CarRegisterNumber",
-        type: "string",
-      },
-      {
-        internalType: "string",
-        name: "CarName",
-        type: "string",
-      },
-      {
-        internalType: "string",
-        name: "LicenseNumber",
-        type: "string",
-      },
-      {
-        internalType: "string",
-        name: "CurrentLocation",
-        type: "string",
-      },
-      {
-        internalType: "uint256",
-        name: "status",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "getAllDrivers",
-    outputs: [
-      {
-        components: [
-          {
-            internalType: "address",
-            name: "DriverID",
-            type: "address",
-          },
-          {
-            internalType: "string",
-            name: "DriverName",
-            type: "string",
-          },
-          {
-            internalType: "uint256",
-            name: "Experience",
-            type: "uint256",
-          },
-          {
-            internalType: "string",
-            name: "PhoneNumber",
-            type: "string",
-          },
-          {
-            internalType: "string",
-            name: "Address",
-            type: "string",
-          },
-          {
-            internalType: "string",
-            name: "CarRegisterNumber",
-            type: "string",
-          },
-          {
-            internalType: "string",
-            name: "CarName",
-            type: "string",
-          },
-          {
-            internalType: "string",
-            name: "LicenseNumber",
-            type: "string",
-          },
-          {
-            internalType: "string",
-            name: "CurrentLocation",
-            type: "string",
-          },
-          {
-            internalType: "uint256",
-            name: "status",
-            type: "uint256",
-          },
-        ],
-        internalType: "struct DriverContract.DriverData[]",
-        name: "",
-        type: "tuple[]",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "DriverID",
-        type: "address",
-      },
-    ],
-    name: "getDriver",
-    outputs: [
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "getNumberOfRecords",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "DriverID",
-        type: "address",
-      },
-    ],
-    name: "getStatus",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "Drivers",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "DriverID",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "DriverName",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "Experience",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "PhoneNumber",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "Address",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "CarRegisterNumber",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "CarName",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "LicenseNumber",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "CurrentLocation",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "status",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "DriverID",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "DriverName",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "Experience",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "PhoneNumber",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "Address",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "CarRegisterNumber",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "CarName",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "LicenseNumber",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "CurrentLocation",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "status",
+				"type": "uint256"
+			}
+		],
+		"name": "addDriver",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getAllDrivers",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "address",
+						"name": "DriverID",
+						"type": "address"
+					},
+					{
+						"internalType": "string",
+						"name": "DriverName",
+						"type": "string"
+					},
+					{
+						"internalType": "uint256",
+						"name": "Experience",
+						"type": "uint256"
+					},
+					{
+						"internalType": "string",
+						"name": "PhoneNumber",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "Address",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "CarRegisterNumber",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "CarName",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "LicenseNumber",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "CurrentLocation",
+						"type": "string"
+					},
+					{
+						"internalType": "uint256",
+						"name": "status",
+						"type": "uint256"
+					}
+				],
+				"internalType": "struct DriverContract.DriverData[]",
+				"name": "",
+				"type": "tuple[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "DriverID",
+				"type": "address"
+			}
+		],
+		"name": "getDriver",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getNumberOfRecords",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "DriverID",
+				"type": "address"
+			}
+		],
+		"name": "getStatus",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "DriverID",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "status",
+				"type": "uint256"
+			}
+		],
+		"name": "updateDriver",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	}
 ];
 
 var arraylist2 = [];
@@ -416,14 +416,22 @@ function AdminPanel() {
                   <td>{String(record[7])}</td>
                   <td>{String(record[8])}</td>
                   <td id="s">{changeable(String(record[9]))}</td>
-                  <td>
-                    <button
-                      className="btn btn-success"
-                      onClick={() => Update(record[9], record[0])}
-                    >
-                      Update
-                    </button>
-                  </td>
+                  <td className="d-flex align-items-center">
+  <a
+    href="https://parivahan.gov.in/rcdlstatus/?pur_cd=101"
+    className="btn btn-primary mr-2"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    Verify DL
+  </a>
+  <button
+    className="btn btn-success"
+    onClick={() => Update(record[9], record[0])}
+  >
+    Update
+  </button>
+</td>
                 </tr>
               ))}
             </tbody>

@@ -8,308 +8,310 @@ import {
   Route,
   Link
 } from 'react-router-dom';
-const DriverContractAddress = "0x22b8424720F0EE1A55dEB24176Da80640138064d";
+const DriverContractAddress = "0x5A96eA97518353ADCE1aa3C461c93E02d967BF4F";
 const abiDriverContract = [
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "DriverID",
-        type: "address",
-      },
-      {
-        internalType: "string",
-        name: "DriverName",
-        type: "string",
-      },
-      {
-        internalType: "uint256",
-        name: "Experience",
-        type: "uint256",
-      },
-      {
-        internalType: "string",
-        name: "PhoneNumber",
-        type: "string",
-      },
-      {
-        internalType: "string",
-        name: "Address",
-        type: "string",
-      },
-      {
-        internalType: "string",
-        name: "CarRegisterNumber",
-        type: "string",
-      },
-      {
-        internalType: "string",
-        name: "CarName",
-        type: "string",
-      },
-      {
-        internalType: "string",
-        name: "LicenseNumber",
-        type: "string",
-      },
-      {
-        internalType: "string",
-        name: "CurrentLocation",
-        type: "string",
-      },
-      {
-        internalType: "uint256",
-        name: "status",
-        type: "uint256",
-      },
-    ],
-    name: "addDriver",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "DriverID",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "status",
-        type: "uint256",
-      },
-    ],
-    name: "updateDriver",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    name: "Drivers",
-    outputs: [
-      {
-        internalType: "address",
-        name: "DriverID",
-        type: "address",
-      },
-      {
-        internalType: "string",
-        name: "DriverName",
-        type: "string",
-      },
-      {
-        internalType: "uint256",
-        name: "Experience",
-        type: "uint256",
-      },
-      {
-        internalType: "string",
-        name: "PhoneNumber",
-        type: "string",
-      },
-      {
-        internalType: "string",
-        name: "Address",
-        type: "string",
-      },
-      {
-        internalType: "string",
-        name: "CarRegisterNumber",
-        type: "string",
-      },
-      {
-        internalType: "string",
-        name: "CarName",
-        type: "string",
-      },
-      {
-        internalType: "string",
-        name: "LicenseNumber",
-        type: "string",
-      },
-      {
-        internalType: "string",
-        name: "CurrentLocation",
-        type: "string",
-      },
-      {
-        internalType: "uint256",
-        name: "status",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "getAllDrivers",
-    outputs: [
-      {
-        components: [
-          {
-            internalType: "address",
-            name: "DriverID",
-            type: "address",
-          },
-          {
-            internalType: "string",
-            name: "DriverName",
-            type: "string",
-          },
-          {
-            internalType: "uint256",
-            name: "Experience",
-            type: "uint256",
-          },
-          {
-            internalType: "string",
-            name: "PhoneNumber",
-            type: "string",
-          },
-          {
-            internalType: "string",
-            name: "Address",
-            type: "string",
-          },
-          {
-            internalType: "string",
-            name: "CarRegisterNumber",
-            type: "string",
-          },
-          {
-            internalType: "string",
-            name: "CarName",
-            type: "string",
-          },
-          {
-            internalType: "string",
-            name: "LicenseNumber",
-            type: "string",
-          },
-          {
-            internalType: "string",
-            name: "CurrentLocation",
-            type: "string",
-          },
-          {
-            internalType: "uint256",
-            name: "status",
-            type: "uint256",
-          },
-        ],
-        internalType: "struct DriverContract.DriverData[]",
-        name: "",
-        type: "tuple[]",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "DriverID",
-        type: "address",
-      },
-    ],
-    name: "getDriver",
-    outputs: [
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "getNumberOfRecords",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "DriverID",
-        type: "address",
-      },
-    ],
-    name: "getStatus",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "Drivers",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "DriverID",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "DriverName",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "Experience",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "PhoneNumber",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "Address",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "CarRegisterNumber",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "CarName",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "LicenseNumber",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "CurrentLocation",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "status",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "DriverID",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "DriverName",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "Experience",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "PhoneNumber",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "Address",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "CarRegisterNumber",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "CarName",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "LicenseNumber",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "CurrentLocation",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "status",
+				"type": "uint256"
+			}
+		],
+		"name": "addDriver",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getAllDrivers",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "address",
+						"name": "DriverID",
+						"type": "address"
+					},
+					{
+						"internalType": "string",
+						"name": "DriverName",
+						"type": "string"
+					},
+					{
+						"internalType": "uint256",
+						"name": "Experience",
+						"type": "uint256"
+					},
+					{
+						"internalType": "string",
+						"name": "PhoneNumber",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "Address",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "CarRegisterNumber",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "CarName",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "LicenseNumber",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "CurrentLocation",
+						"type": "string"
+					},
+					{
+						"internalType": "uint256",
+						"name": "status",
+						"type": "uint256"
+					}
+				],
+				"internalType": "struct DriverContract.DriverData[]",
+				"name": "",
+				"type": "tuple[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "DriverID",
+				"type": "address"
+			}
+		],
+		"name": "getDriver",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getNumberOfRecords",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "DriverID",
+				"type": "address"
+			}
+		],
+		"name": "getStatus",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "DriverID",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "status",
+				"type": "uint256"
+			}
+		],
+		"name": "updateDriver",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	}
 ];
 
 function AddDriver(props) {
   const [account, setAccount] = useState(null);
+  const [userPhoneNumber, setUserPhoneNumber] = useState("");
+
 
   const setacc = async () => {
     const { ethereum } = window;
@@ -317,13 +319,43 @@ function AddDriver(props) {
     setAccount(accounts[0]);
   };
 
-  const clear = () => {
-    document.getElementById("myForm").reset();
-    const form = document.getElementById("myForm");
-    form.reset();
-  };
+  function validateForm() {
+	const DriverName = document.getElementById('DriverName').value;
+	const Experience = document.getElementById('Experience').value;
+	const Address = document.getElementById('Address').value;
+	const CarRegisterNumber = document.getElementById('CarRegisterNumber').value;
+	const CarName = document.getElementById('CarName').value;
+	const LicenseNumber = document.getElementById('LicenseNumber').value;
+  
+	// Validation criteria
+	const isPhoneNumberValid = /^\d{10}$/.test(userPhoneNumber);
+	const isLicenseNumberValid = /^\d{16}$/.test(LicenseNumber);
+  
+	// Check if all conditions are met
+	if (
+	  DriverName &&
+	  Experience &&
+	  isPhoneNumberValid &&
+	  Address &&
+	  CarRegisterNumber &&
+	  CarName &&
+	  isLicenseNumberValid
+	) {
+	  return true; // All fields meet the criteria
+	} else {
+	  return false; // Validation failed for one or more fields
+	}
+  }
+
+ 
   const savedata = async () => {
     try {
+
+		const isFormValid = validateForm();
+
+  if (isFormValid) {
+
+      if (typeof window.ethereum !== 'undefined') {
       const { ethereum } = window;
 
       if (ethereum) {
@@ -339,20 +371,20 @@ function AddDriver(props) {
         const DriverID = document.getElementById("DriverID").value;
         const DriverName = document.getElementById("DriverName").value;
         const Experience = document.getElementById("Experience").value;
-        const PhoneNumber = document.getElementById("PhoneNumber").value;
+        //const PhoneNumber = document.getElementById("PhoneNumber").value;
         const Address = document.getElementById("Address").value;
         const CarRegisterNumber = document.getElementById("CarRegisterNumber").value;
         const CarName = document.getElementById("CarName").value;
         const LicenseNumber = document.getElementById("LicenseNumber").value;
         const CurrentLocation = "Pune";
-		const status = 0;
+		    const status = 0;
 
 
         let Txn2 = await DriverContract.addDriver(
 			DriverID,
 			DriverName,
-			Experience,
-			PhoneNumber,
+			parseInt(Experience),
+			userPhoneNumber,
 			Address,
 			CarRegisterNumber,
 			CarName,
@@ -361,12 +393,29 @@ function AddDriver(props) {
 			status
         );
 
+      //   let Txn2 = await DriverContract.addDriver(
+      //   DriverID,
+      //    "samet",
+      //   1,
+      //     "8798786776587",
+      //     "Pune",
+      //     "MH1044",
+      //    "Creta",
+      //    "LI563ffef",
+      //    "Pune",
+      //     0
+      // )
+
         await Txn2.wait();
-        clear();
+      
         alert("Added Success , Please Wait for Verification");
       } else {
         alert("Ethereum object does not exist");
       }
+    }
+}else{
+	alert("Please check if all field are correct")
+}
     } catch (err) {
       alert(err);
     }
@@ -386,7 +435,7 @@ function AddDriver(props) {
     </div>
   
     <div className="container shadow p-4 mb-5 bg-white rounded">
-      <form className="needs-validation" id="myForm" noValidate>
+      <form id="myForm">
         <div className="form-row">
           <div className="col-lg-4 col-md-6 mb-3">
             <label htmlFor="DriverID">Driver ID</label>
@@ -419,9 +468,18 @@ function AddDriver(props) {
           </div>
   
           <div className="col-lg-2 col-md-6 mb-3">
-            <label htmlFor="PhoneNumber">Phone Number</label>
+          <label htmlFor="userPhoneNumber">Phone Number:</label>
+                <input
+                    type="text"
+                    className="form-control"
+                    id="userPhoneNumber"
+                    value={userPhoneNumber}
+                    onChange={(e) => setUserPhoneNumber(e.target.value)}
+                />
+            <small className="text-danger ml-1">10 digits</small>
             <input
-              type="number"
+              type="text"
+              style={{ display: 'none' }}
               className="form-control"
               id="PhoneNumber"
               required
@@ -451,6 +509,7 @@ function AddDriver(props) {
               id="CarRegisterNumber"
               required
             />
+			 <small className="text-danger ml-1">10 Char</small>
             <div className="valid-feedback">Looks good!</div>
           </div>
   
@@ -468,10 +527,11 @@ function AddDriver(props) {
               id="LicenseNumber"
               required
             />
+			<small className="text-danger ml-1">Info - 16 Char</small>
             <div className="valid-feedback">Looks good!</div>
           </div>
         </div>
-        <button onClick={savedata} className="btn btn-success mt-3">
+        <button onClick={() =>{savedata()}} className="btn btn-success mt-3">
           Save
         </button>
       </form>

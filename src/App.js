@@ -355,7 +355,7 @@ function App() {
 
   return <>
 
-    <div className="App" style={{ backgroundImage: `url('bg.jpg')`, backgroundSize: 'cover', backgroundPosition: 'center', minHeight: '100vh' }}>
+    <div className="App" style={{ backgroundImage: `url('bg4.jpg')`, backgroundSize: 'cover', backgroundPosition: 'center', minHeight: '100vh' }}>
         
         
 
@@ -366,13 +366,12 @@ function App() {
             <div className='container-fluid mt-4'>
            
               <Routes> 
-              <Route exact path='/add-ride' element={<AddDriver currentAccount={currentAccount} currentBalance={currentBalance} setCurrentBalanace={setCurrentBalanace}></AddDriver> }></Route>
+             <Route exact path='/addride' element={<AddDriver currentAccount={currentAccount} currentBalance={currentBalance} setCurrentBalanace={setCurrentBalanace}></AddDriver> }></Route>
 
                 <Route exact path='/' element={<UserTypeComponent></UserTypeComponent>}></Route>
-            {DriverStatus ?
-                <Route exact path='/driver' element={<AddDriver currentAccount={currentAccount} currentBalance={currentBalance} setCurrentBalanace={setCurrentBalanace}></AddDriver> }></Route>
-            :<Route exact path='/driver' element={<DriverHome currentAccount={currentAccount} currentBalance={currentBalance} setCurrentBalanace={setCurrentBalanace}></DriverHome> }></Route>
-}
+           
+            <Route exact path='/driver' element={<DriverHome currentAccount={currentAccount} currentBalance={currentBalance} setCurrentBalanace={setCurrentBalanace}></DriverHome> }></Route>
+
 <Route exact path='/rider' element={<Rider></Rider>}></Route>
                 <Route exact path='/admin' element={<AdminPanel></AdminPanel>}></Route>
          
@@ -380,7 +379,7 @@ function App() {
             </div>
           
               
-              <FooterComponent></FooterComponent>
+             
     
           </Router>
            
@@ -393,12 +392,14 @@ function App() {
                   <Route exact path='*' element={<ForceLogin></ForceLogin>}></Route>
                 </Routes>
               </>
-                <FooterComponent></FooterComponent>
+               
               </Router>
             
         }
+
+        
         </div>
-         
+        <FooterComponent></FooterComponent>
   
   </>;
 }
